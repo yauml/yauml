@@ -1,0 +1,124 @@
+# ------------- #
+# Basic classes #
+# ------------- #
+
+- class: GridCell
+  inherits:
+    - tuple
+
+- class: GridEdge
+  inherits:
+    - tuple
+
+- class: GridPoint
+  inherits:
+    - tuple
+
+#TODO: Could there be a class in sage that alread does this that we could inherit from
+ 
+- class: IGridObject
+  methods:
+    - int size();
+    - int xmin();
+    - int xmax();
+    - int ymin();
+    - int ymax();
+    - int width();
+    - int height();
+    - void plot();
+ 
+- class: GridCellSet
+  inherits:
+    - frozenset
+    - IGridObject
+  uses:
+    - GridCell
+  methods:
+    - iterator<(int,int)> boundary_points_iterator();
+    - list<(int,int)> boundary_points();
+    - boolean is_connected();
+    - iterator<Polyomino> connected_components_iterator();
+    - set<Polyomino> connected_components();
+    - boolean has_hole();
+    - iterator<Polyomino> holes_iterator();
+    - string ascii();
+    - Graph graph();
+
+- class: GridEdgeSet
+  inherits:
+    - frozenset
+    - IGridObject
+  uses:
+    - GridEdge
+  methods:
+    - boolean is_connected();
+    - iterator<GridPath> connected_components_iterator();
+    - set<GridPath> connected_components();
+
+- class: GridPointSet
+  inherits:
+    - frozenset
+    - IGridObject
+  uses:
+    - GridPoint
+
+# --------- #
+# Polyomino #
+# --------- #
+#
+- class: IPolyomino
+  methods:
+    - int perimeter();
+
+# This class can handle these types of data inout:
+# - boundary word
+# - list of 2-tuples of integers
+# - list of strings of binary values
+- class: Polyomino
+  uses:
+    - BoundaryGridPath
+  inherits:
+    - GridCellSet
+    - IPolyomino
+  methods:
+    - BoundaryGridPath boundary_path();
+
+# ------------------------ #
+# Efficient representation #
+# ------------------------ #
+# We reimplements everything (with a module coded in C) 
+# so that it's coded more efficiently than the other classes.
+#
+# The interface of this class should be the same as the Polyomino
+- class: FastPolyomino
+  inherits:
+    - IPolyomino
+  attributes:
+    - matrix<boolean> mat;
+
+# ---------- #
+# Grid paths #
+# ---------- #
+- class: GridPath
+  inherits:
+    - GridEdgeSet
+  attributes:
+    - (int,int) start;
+    - list<int> path;
+  methods:
+    - boolean is_closed();
+    - boolean is_simple();
+    - boolean is_crossing();
+    - boolean is_boundary_path();
+    - int length();
+
+#TODO: Complete specialization
+# -------------- #
+# Boundary paths #
+# -------------- #
+- class: BoundaryGridPath
+  inherits:
+    - GridPath
+  methods:
+    - boolean contains_cell(GridCell);
+    - boolean is_tile();

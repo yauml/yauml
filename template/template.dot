@@ -1,0 +1,71 @@
+digraph {
+  fontname = "Courier"
+  fontsize = 8
+
+  // -------------------- //
+  // Node and edge styles //
+  // -------------------- //
+
+  node [
+    fontname = "Courier"
+    fontsize = 8
+    shape = "record"
+    color = "blue"
+    fontcolor = "black"
+    style = "filled"
+    fillcolor = "white"
+  ]
+
+  edge [
+    dir = "back",
+    arrowtail = "empty"
+  ]
+
+  // ------- //
+  // Classes //
+  // ------- //
+
+%s
+
+  // --------- //
+  // Relations //
+  // --------- //
+
+  // Inherits
+
+  edge [
+    dir = "back",
+    arrowtail = "empty"
+  ]
+
+%s
+
+  // Is-part-of
+
+  edge [
+    dir = "back",
+    arrowtail = "ediamond",
+    labelfontsize = "8",
+    labeldistance = "1.5em",
+    labelangle = "-60",
+    labelfontcolor = "blue"
+  ]
+
+%s
+
+  // Uses
+
+  edge [
+    dir = "back",
+    arrowtail = "vee",
+    style = "dashed",
+    labelfontsize = "8",
+    labeldistance = "1.5em",
+    labelangle = "-60",
+    labelfontcolor = "blue",
+    label = "uses"
+  ]
+
+%s
+
+}
