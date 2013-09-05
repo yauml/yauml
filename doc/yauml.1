@@ -1,0 +1,50 @@
+.TH YAUML ! 2013-09-05
+
+
+.SH NAME
+.B yauml
+- A script for generating UML diagrams from YAML file.
+
+.SH SYNOPSYS
+.B yauml [-t \fItemplate_file\fP] [-o \fIout_file\fP] \fIfile.yaml\fP
+
+.B yauml [-hv]
+
+.\" DESCRIPTION
+.SH DESCRIPTION
+This program generates a formatted string according to the dot programming language interpreted 
+by \fBGraphviz\fP. The output can then be used by \fBdot\fP in order to get a file in png, pdf, or 
+another file format supported (see \fBdot\fP(1)).
+
+.SH OPTIONS
+
+.TP
+\fB-t, --template\fP \fItemplate_file\fP
+The template file to use (default: \fBTEMPLATE_FILE\fP).
+.TP
+\fB-o, --out\fP \fIout_file\fP
+The file to output the generated result (default: \fBstdout\fP).
+.TP
+\fB-h, --help\fP
+Shows a help text on \fBstdout\fP.
+.TP
+\fB-v, --version\fP
+Version of the program.
+
+.SH FILES
+.TP
+\fBTEMPLATE_FILE\fP
+/etc/yauml/template.dot
+
+.SH AUTHORS
+.TP
+Written by
+.IP \(bu
+.\} 
+Alexandre Blondin Massé <alexandre.blondin.masse@gmail.com>
+.IP \(bu
+.\} 
+Simon Désaulniers <rostydela@gmail.com>
+
+.SH SEE ALSO
+\fBdot\fP(1)
