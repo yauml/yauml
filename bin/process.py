@@ -51,7 +51,7 @@ class DotStringBuilder(object):
         Builds the class ndoes string.
         """
         class_string = ''
-        for entity in data:
+        for entity in self._data:
             if 'class' in entity:
                 class_name = make_raw(entity['class'])
         
@@ -76,7 +76,7 @@ class DotStringBuilder(object):
         Builds the interface nodes string.
         """
         interface_string = ''
-        for entity in data:
+        for entity in self._data:
             if 'interface' in entity:
                interface_name = entity['interface']
                
@@ -97,10 +97,10 @@ class DotStringBuilder(object):
         """
         # Uses
         uses = ''
-        for entity in data:
+        for entity in self._data:
             if 'uses' in entity:
                 for parent in entity['uses']:
-                    uses += RELATION_FORMAT % (parent, entity['class'].split()[0])
+                    uses += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
         return uses
 
     def build_inherits(self):
@@ -109,10 +109,10 @@ class DotStringBuilder(object):
         """
         # Inheritance
         inheritances = ''
-        for entity in data:
+        for entity in self._data:
             if 'inherits' in entity:
                 for parent in entity['inherits']:
-                    inheritances += RELATION_FORMAT % (parent, entity['class'].split()[0])
+                    inheritances += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
         return inheritances
 
     def build_is_part_of(self):
@@ -121,10 +121,10 @@ class DotStringBuilder(object):
         """
         # Is-part-of
         ispartofs = ''
-        for entity in data:
+        for entity in self._data:
             if 'ispartof' in entity:
                 for parent in entity['ispartof']:
-                    ispartofs += RELATION_FORMAT % (parent, entity['class'].split()[0])
+                    ispartofs += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
         return ispartofs
 
     def build_implements(self):
@@ -133,10 +133,10 @@ class DotStringBuilder(object):
         """
         # Implements
         implements = ''
-        for entity in data:
+        for entity in self._data:
             if 'implements' in entity:
                 for parent in entity['implements']:
-                    implements += RELATION_FORMAT % (parent, entity['class'].split()[0])
+                    implements += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
         return implements
 
 def make_raw(s):
@@ -158,7 +158,7 @@ def getOptions():
     r"""
     Gets all options at command line.
     """
-    global template, yaml_filename
+    global template, yaml_filename, template_filename
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hvt:", ["help","version","template="])
@@ -175,7 +175,7 @@ def getOptions():
             print(HELP)
             sys.exit(0)
         elif o in ("-t","--template"):
-            with open(a, 'r') as template_file: template = template_file.read()
+            template_filename = a
         else:
             assert False
             
@@ -183,6 +183,7 @@ def getOptions():
         print(PROGRAM+': an argument is missing.')
         sys.exit(1)
     
+    with open(template_filename, 'r') as template_file: template = template_file.read()
     yaml_filename = args[0]
 
 def main():
