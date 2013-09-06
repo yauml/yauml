@@ -162,7 +162,7 @@ def getOptions():
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hvt:", ["help","version","template="])
-    except getopt.GetoptError, err:
+    except (getopt.GetoptError, err):
         print(str(err))
         print(HELP)
         sys.exit(1)
@@ -194,9 +194,9 @@ def main():
         data = yaml.load(yaml_file.read())
 
     dot_string_builder = DotStringBuilder(data)
-    print template % (dot_string_builder.build_classes(), dot_string_builder.build_interfaces(),\
-                        dot_string_builder.build_inherits, dot_string_builder.build_is_part_of(),\
-                        dot_string_builder.build_uses(), dot_string_builder.build_implements())
+    print(template % (dot_string_builder.build_classes(), dot_string_builder.build_interfaces(),\
+                        dot_string_builder.build_inherits(), dot_string_builder.build_is_part_of(),\
+                        dot_string_builder.build_uses(), dot_string_builder.build_implements()))
 
 if __name__ == "__main__":
     main()
