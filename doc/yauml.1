@@ -1,6 +1,5 @@
 .TH YAUML ! 2013-09-05
 
-
 .SH NAME
 .B yauml
 - A script for generating UML diagrams from YAML file.
@@ -16,6 +15,7 @@ This program generates a formatted string from an YAML file according to the dot
 by \fBGraphviz\fP. The output can then be used by \fBdot\fP in order to get a file in png, pdf, or 
 another file format supported (see \fBdot\fP(1)).
 
+.\" OPTIONS
 .SH OPTIONS
 
 .TP
@@ -31,11 +31,43 @@ Shows a help text on \fBstdout\fP.
 \fB-v, --version\fP
 Version of the program.
 
+.\" FILES
 .SH FILES
 .TP
 \fBTEMPLATE_FILE\fP
 /usr/share/yauml/template.dot
 
+This file is written accordingly to the \fBdot\fP programming language. However, in order to properly use \fByauml\fP,
+it is required to place some flags in the file so that the program finds where to inject the right string at the right
+place. Those flags are the following:
+
+.IP
+- // CLASSES
+
+- // INTERFACES
+
+- // USE RELATIONS
+
+- // INHERIT RELATIONS
+
+- // ISPARTOF RELATIONS
+
+.\" INSERT ALL FLAGS HERE
+
+All of these flags consist in a commented line containing the word "CLASSES" or "INTERFACES" or ...  
+in capital letters (note that "// The CLASSES here" would be valid too). Each of those flags have to
+be followed by another line containing the string "\fB%s\fP".
+
+.B EXAMPLE:
+
+// CLASSES
+
+%s
+
+This would indicate that the class string made from the YAML file information would be placed there (\fBNote\fP:
+A not flagged "%s" string will result in an error and the program will exit).
+
+.\" FILES
 .SH AUTHORS
 .TP
 Written by
@@ -46,5 +78,6 @@ Alexandre Blondin Massé <alexandre.blondin.masse@gmail.com>
 .\} 
 Simon Désaulniers <rostydela@gmail.com>
 
+.\" SEE ALSO
 .SH SEE ALSO
 \fBdot\fP(1)
