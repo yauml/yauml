@@ -42,30 +42,21 @@ it is required to place some flags in the file so that the program finds where t
 place. Those flags are the following:
 
 .IP
-- // CLASSES
+// CLASSES
 
-- // INTERFACES
+// INTERFACES
 
-- // USE RELATIONS
+// USE RELATIONS
 
-- // INHERIT RELATIONS
+// INHERIT RELATIONS
 
-- // ISPARTOF RELATIONS
+// ISPARTOF RELATIONS
 
 .\" INSERT ALL FLAGS HERE
 
 All of these flags consist in a commented line containing the word "CLASSES" or "INTERFACES" or ...  
-in capital letters (note that "// The CLASSES here" would be valid too). Each of those flags have to
-be followed by another line containing the string "\fB%s\fP".
-
-.B EXAMPLE:
-
-// CLASSES
-
-%s
-
-This would indicate that the class string made from the YAML file information would be placed there (\fBNote\fP:
-A not flagged "%s" string will result in an error and the program will exit).
+in capital letters (note that "// The CLASSES here" would be valid too). The first occurence of
+each flags will be followed by the respective string built from the YAML file.
 
 .\" FILES
 .SH AUTHORS
