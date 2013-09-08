@@ -6,6 +6,7 @@ digraph {
   // Node and edge styles //
   // -------------------- //
 
+
   node [
     fontname = "Courier"
     fontsize = 8
@@ -21,26 +22,21 @@ digraph {
     arrowtail = "empty"
   ]
 
-  // ------- //
-  // Classes //
-  // ------- //
+  // CLASSES
 
-%s
 
   // --------- //
-  // Relations //
+  // RELATIONS //
   // --------- //
 
-  // Inherits
 
   edge [
     dir = "back",
     arrowtail = "empty"
   ]
+  
+  // INHERIT RELATIONS
 
-%s
-
-  // Is-part-of
 
   edge [
     dir = "back",
@@ -51,9 +47,8 @@ digraph {
     labelfontcolor = "blue"
   ]
 
-%s
-
-  // Uses
+  // ISPARTOF RELATIONS
+  
 
   edge [
     dir = "back",
@@ -65,7 +60,18 @@ digraph {
     labelfontcolor = "blue",
     label = "uses"
   ]
+  
+  // USE RELATIONS
 
-%s
+
+  edge [
+    dir = "back",
+    arrowtail = "empty",
+    style = "dashed",
+    label = ""
+  [
+
+  // IMPLEMENT RELATIONS
+
 
 }

@@ -158,7 +158,7 @@ def getOptions():
     r"""
     Gets all options at command line.
     """
-    global template, yaml_filename, template_filename
+    global template_file, yaml_filename, template_filename
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hvt:", ["help","version","template="])
@@ -183,7 +183,8 @@ def getOptions():
         print(PROGRAM+': an argument is missing.')
         sys.exit(1)
     
-    with open(template_filename, 'r') as template_file: template = template_file.read()
+    with open(template_filename, 'r') as template_file: 
+        template = template_file.read()
     yaml_filename = args[0]
 
 def main():
@@ -193,10 +194,15 @@ def main():
     with open(yaml_filename) as yaml_file: 
         data = yaml.load(yaml_file.read())
 
+    # 1. find first occurence of each flags in template
+    # 2. for each of first occurence, insert apporpriate text
     dot_string_builder = DotStringBuilder(data)
-    print(template % (dot_string_builder.build_classes(), dot_string_builder.build_interfaces(),\
-                        dot_string_builder.build_inherits(), dot_string_builder.build_is_part_of(),\
-                        dot_string_builder.build_uses(), dot_string_builder.build_implements()))
+    out = template
+    for line in 
+
+    #print(template % (dot_string_builder.build_classes(), dot_string_builder.build_interfaces(),\
+                        #dot_string_builder.build_inherits(), dot_string_builder.build_is_part_of(),\
+                        #dot_string_builder.build_uses(), dot_string_builder.build_implements()))
 
 if __name__ == "__main__":
     main()
