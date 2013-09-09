@@ -160,22 +160,22 @@ def build_out(template, builder):
 
     for line in template.split(sep='\n'):
         out += line + '\n'
-        if re.search('//.CLASSES',line) and not done['CLASSES']:
+        if re.search('//.*CLASSES',line) and not done['CLASSES']:
             out += builder.build_classes()
             done['CLASSES'] = True
-        elif re.search('//.INTERFACES',line) and not done['INTERFACES']:
+        elif re.search('//.*INTERFACES',line) and not done['INTERFACES']:
             out += builder.build_interfaces()
             done['INTERFACES'] = True
-        elif re.search('//.USE RELATIONS',line) and not done['USE RELATIONS']:
+        elif re.search('//.*USE RELATIONS',line) and not done['USE RELATIONS']:
             out += builder.build_uses()
             done['USE RELATIONS'] = True
-        elif re.search('//.INHERIT RELATIONS', line) and not done['INHERIT RELATIONS']:
+        elif re.search('//.*INHERIT RELATIONS', line) and not done['INHERIT RELATIONS']:
             out += builder.build_inherits()
             done['INHERIT RELATIONS'] = True
-        elif re.search('//.ISPARTOF RELATIONS', line) and not done['ISPARTOF RELATIONS']:
+        elif re.search('//.*ISPARTOF RELATIONS', line) and not done['ISPARTOF RELATIONS']:
             out += builder.build_is_part_of()
             done['ISPARTOF RELATIONS'] = True
-        elif re.search('//.IMPLEMENT RELATIONS', line) and not done['IMPLEMENT RELATIONS']:
+        elif re.search('//.*IMPLEMENT RELATIONS', line) and not done['IMPLEMENT RELATIONS']:
             out += builder.build_implements()
             done['IMPLEMENT RELATIONS'] = True
     return out
