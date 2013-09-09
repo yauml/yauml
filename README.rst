@@ -4,6 +4,14 @@ YAUML
 A script for generating UML diagrams from `YAML <http://www.yaml.org/>`__
 files.
 
+Installation
+------------
+
+First, you can configurate some variables to suit your needs in the Makefile.
+Then, simply run::
+
+    make install
+
 Dependencies
 ------------
 
