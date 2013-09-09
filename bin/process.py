@@ -22,7 +22,7 @@ AUTHORS:
 import yaml, sys, getopt, re
 
 template_filename = '../template/template.dot'
-out_file = sys.stdout
+out_file = None
 
 # CONSTANTS
 VERSION='0.1'
@@ -232,12 +232,14 @@ def main():
     with open(yaml_filename) as yaml_file: 
         data = yaml.load(yaml_file.read())
 
+    f = sys.stdout
     #print output to stdout / file
-    if out_file != sys.stdout:
-        with open(out_file, 'w') as f:
-            print(build_out(template, DotStringBuilder(data)), file=f)
-    else:
-        print(build_out(template, DotStringBuilder(data)))
+    if out_file:
+        try:
+            f = open(out_file, 'w')
+        except FileNotFoundError as e:
+            print('%s: %s' % (PROGRAM, e), file=sys.stderr)
+    print(build_out(template, DotStringBuilder(data)), file=f)
 
 if __name__ == "__main__":
     main()
