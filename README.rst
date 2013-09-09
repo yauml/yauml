@@ -10,6 +10,8 @@ Installation
 First, you can configurate some variables to suit your needs in the Makefile.
 Then, simply run::
 
+    make
+and::
     make install
 
 Dependencies
