@@ -1,0 +1,174 @@
+# ----- #
+# Grids #
+# ----- #
+#
+# The grid is an object that knows everything about
+# the cells on itself. It says if two cells are
+# - from itself (the grid)
+# - connected
+# - ...
+#
+# There are multiple types of grids:
+# - SquareGrid: This is a grid that is composed
+#   of cells with 4 edges of same length and 4 
+#   vertexes.
+# - HexGrid: This is a grid that is composed
+#   of cells with 6 edges of same length and 6
+#   vertexes.
+#----------------------------------------------------
+
+- class: Grid { Abstract }
+  attributes:
+    - int dimension
+  methods:
+    - Point point()
+    - Cell cell()
+    - Edge edge()
+    - iterator<Point> neighbors_iterator(Point) { Abstract }
+    - iterator<Point> surrounding_points(Cell) { Abstract }
+    - iterator<Edge> surrounding_edges(Cell) { Abstract }
+    - boolean are_neighbors(Point, Point) { Abstract }
+    - boolean are_edge_connected(Cell, Cell) { Abstract }
+    - boolean are_vertex_connected(Cell, Cell) { Abstract }
+    - boolean are_vertex_or_edge_connected(Cell, Cell) { Abstract }
+
+
+- class: SquareGrid
+  inherits:
+    - Grid
+
+- class: HexGrid
+  inherits:
+    - Grid
+
+# ------------- #
+# Basic classes #
+# ------------- #
+#
+# Those are the basic objects that compose
+# a grid. You retrieve the:
+# - Point
+# - Edge
+# - Cell
+#
+# A Cell is a simple area occupied in the grid. It
+# is delimited by it's edges connected by points.
+# There are multiple types of cells (as much as there
+# are types of grids).
+#
+# An Edge is a what helps delimit the area occupied
+# in the grid (a cell).
+#
+# A Point is a simple vertex connecting two 
+# edges.
+#------------------------------------------------------
+
+- interface: IGridDisplayable
+  methods:
+    - void plot()
+
+#What's that interface for yet? Change name of the interface
+#if it makes sense or delete it.
+#- interface: IGridObject
+  #methods:
+    #- Grid grid()
+ 
+- class: Point
+  implements:
+    - IGridDisplayable
+  attributes:
+    - tuple x # it n-tuple. e.g.: If in SquareGrid, x is 2-tuple but if in CubeGrid, x is 3-tuple..
+
+- class: Edge
+  implements:
+    - IGridDisplayable
+  attributes:
+    - Point first
+    - Point second
+
+- class: Cell
+  implements:
+    - IGridDisplayable
+  attributes:
+    - Point landmark
+
+# -------------- #
+# Basic geometry #
+# -------------- #
+
+- interface: IGridMesurable
+  methods:
+    - real xmin()
+    - real xmax()
+    - real ymin()
+    - real ymax()
+    - real size()
+
+# --------- #
+# Cell sets #
+# --------- #
+
+- interface: IAsciiable
+  methods:
+    - string ascii()
+
+- class: CellSet { Abstract }
+  attributes:
+    - frozenset cells
+  implements:
+    - IGridMesurable
+    - IGridDisplayable
+  methods:
+    - iterator<Cell> cells_iterator() { Abstract }
+    - iterator<CellSet> connected_componnents_iterator() { Abstract }
+    - boolean is_connected((Cell,Cell)-->boolean) { Abstract }
+
+- class: SquareCellSet
+  inherits:
+    - CellSet
+  implements:
+    - IAsciiable
+
+- class: HexCellSet
+  inherits:
+    - CellSet
+  implements:
+    - IAsciiable
+
+# --------- #
+# Edge sets #
+# --------- #
+
+- class: EdgeSet
+  attributes:
+    - frozenset edges
+  implements:
+    - IGridDisplayable
+    - IGridMesurable
+  methods:
+    - iterator<Edge> edges_iterator()
+    - boolean is_connected()
+
+# --------- #
+# Polyomino #
+# --------- #
+
+- class: Polyomino
+  implements:
+    - IGridMesurable
+    - IGridDisplayable
+    - IAsciiable
+  attributes:
+    - EdgeSet BoundaryEdges
+    - CellSet cell_set
+  methods:
+    - boolean has_hole()
+    - iterator<Cell> cells_iterator()
+    - iterator<CellSet> holes_iterator()
+    - iterator<Edge> boundary_edges_iterator()
+    - iterator<Point> boundary_points_iterator()
+    - iterator<Cell> extensions_iterator()
+    - Word boundary_path()
+    - set<Point> boundary_points()
+    - int site_perimeter()
+    - int perimeter()

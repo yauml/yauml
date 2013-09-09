@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # coding=utf-8
 r"""
 Creating UML diagrams from YAML files.
@@ -18,18 +19,21 @@ AUTHORS:
 #                  http://www.gnu.org/licenses/                                     *
 #************************************************************************************
 
-import yaml, sys
-import getopt
+import yaml, sys, getopt, re
 
 template_filename = '../template/template.dot'
+out_file = sys.stdout
+
 # CONSTANTS
 VERSION='0.1'
 VERSION_INFO='yauml v%s -- A script for generating UML diagrams from YAML file' % VERSION
 HELP='yauml [OPTIONS] file\n\
 \tfile: The YAML file to convert.\n\
 OPTIONS:\n\
+\t-o|--out out_file\n\
+\t\tSpecifies the file to send output to (default: stdout)\n\
 \t-t|--template template\n\
-\t\tSepcefies the template file (default: %s).\n\
+\t\tSepcifies the template file (default: %s).\n\
 \t-h|--help\n\
 \t\tDisplays this help text.' % template_filename
 PROGRAM='yauml'
@@ -40,7 +44,7 @@ class DotStringBuilder(object):
     """
     # Retrieves relations
     RELATION_FORMAT = "  node%s -> node%s;\n"
-    CLASS_FORMAT = '  node%s [\n\tlabel = "{%s\n\t|%s|%s}"\n  \n]\n'
+    CLASS_FORMAT = '  node%s [\n\tlabel = "{%s\n\t|%s|%s}"\n  \n  ]\n\n'
     INTERFACE_FORMAT = '  node%s [\n\tlabel = "{\<\<interface\>\>\\n%s\n\t|\\l|%s}"\n  ]\n\n'
 
     def __init__(self, data):
@@ -139,6 +143,43 @@ class DotStringBuilder(object):
                     implements += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
         return implements
 
+def build_out(template, builder):
+    r"""
+    Builds the apporpriate text output from the 
+    YAML file.
+
+    OUTPUT:
+
+        A string.
+    """
+    out = ''
+    done = {}
+    done['CLASSES'], done['INTERFACES'], \
+    done['USE RELATIONS'], done['INHERIT RELATIONS'], \
+    done['ISPARTOF RELATIONS'], done['IMPLEMENT RELATIONS'] = False,False,False,False,False,False
+
+    for line in template.split(sep='\n'):
+        out += line + '\n'
+        if re.search('//.CLASSES',line) and not done['CLASSES']:
+            out += builder.build_classes()
+            done['CLASSES'] = True
+        elif re.search('//.INTERFACES',line) and not done['INTERFACES']:
+            out += builder.build_interfaces()
+            done['INTERFACES'] = True
+        elif re.search('//.USE RELATIONS',line) and not done['USE RELATIONS']:
+            out += builder.build_uses()
+            done['USE RELATIONS'] = True
+        elif re.search('//.INHERIT RELATIONS', line) and not done['INHERIT RELATIONS']:
+            out += builder.build_inherits()
+            done['INHERIT RELATIONS'] = True
+        elif re.search('//.ISPARTOF RELATIONS', line) and not done['ISPARTOF RELATIONS']:
+            out += builder.build_is_part_of()
+            done['ISPARTOF RELATIONS'] = True
+        elif re.search('//.IMPLEMENT RELATIONS', line) and not done['IMPLEMENT RELATIONS']:
+            out += builder.build_implements()
+            done['IMPLEMENT RELATIONS'] = True
+    return out
+
 def make_raw(s):
     t = ''
     for c in s:
@@ -158,11 +199,11 @@ def getOptions():
     r"""
     Gets all options at command line.
     """
-    global template_file, yaml_filename, template_filename
+    global yaml_filename, template, template_filename, out_file
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hvt:", ["help","version","template="])
-    except (getopt.GetoptError, err):
+        opts, args = getopt.getopt(sys.argv[1:], "hvt:o:", ["help","version","template=","out="])
+    except getopt.GetoptError as err:
         print(str(err))
         print(HELP)
         sys.exit(1)
@@ -171,6 +212,8 @@ def getOptions():
         if o in ("-v","--version"):
             print(VERSION_INFO)
             sys.exit(0)
+        elif o in ("-o","--out"):
+            out_file = a
         elif o in ("-h","--help"):
             print(HELP)
             sys.exit(0)
@@ -194,15 +237,8 @@ def main():
     with open(yaml_filename) as yaml_file: 
         data = yaml.load(yaml_file.read())
 
-    # 1. find first occurence of each flags in template
-    # 2. for each of first occurence, insert apporpriate text
-    dot_string_builder = DotStringBuilder(data)
-    out = template
-    for line in 
-
-    #print(template % (dot_string_builder.build_classes(), dot_string_builder.build_interfaces(),\
-                        #dot_string_builder.build_inherits(), dot_string_builder.build_is_part_of(),\
-                        #dot_string_builder.build_uses(), dot_string_builder.build_implements()))
+    #print output to stdout / file
+    print(build_out(template, DotStringBuilder(data)), file=out_file)
 
 if __name__ == "__main__":
     main()

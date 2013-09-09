@@ -22,6 +22,8 @@ digraph {
     arrowtail = "empty"
   ]
 
+  // INTERFACES
+
   // CLASSES
 
 
@@ -69,7 +71,7 @@ digraph {
     arrowtail = "empty",
     style = "dashed",
     label = ""
-  [
+  ]
 
   // IMPLEMENT RELATIONS
 
