@@ -181,18 +181,13 @@ def build_out(template, builder):
     return out
 
 def make_raw(s):
+    special_dictionnary = {'<','>','{','}','[',']'}
     t = ''
     for c in s:
-        if c == '<':
-            t += '\<'
-        elif c == '>':
-            t += '\>'
-        elif c == '{':
-            t += '\{'
-        elif c == '}':
-            t += '\}'
+        if c in special_dictionnary:
+            t += '\\'+c
         else:
-            t += c
+            t+=c
     return t
    
 def getOptions():
@@ -238,7 +233,11 @@ def main():
         data = yaml.load(yaml_file.read())
 
     #print output to stdout / file
-    print(build_out(template, DotStringBuilder(data)), file=out_file)
+    if out_file != sys.stdout:
+        with open(out_file, 'w') as f:
+            print(build_out(template, DotStringBuilder(data)), file=f)
+    else:
+        print(build_out(template, DotStringBuilder(data)))
 
 if __name__ == "__main__":
     main()
