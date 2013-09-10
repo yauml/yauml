@@ -1,0 +1,16 @@
+#!bash
+_yauml()
+{
+	local cur
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	opts=("-h" "--help" "-v" "--version" "-o" "--out" "-t" "--template")
+	
+	if [[ ${cur} == -* ]]; then
+		COMPREPLY=( $(compgen -W "${opts[*]}" -- ${cur}) )
+		return 0
+	else
+		COMPREPLY=( $(compgen -fd -- ${cur}) )
+	    	return 0
+	fi
+}
+complete -F _yauml yauml

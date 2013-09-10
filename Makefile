@@ -10,6 +10,7 @@ INSTALL_DIR=/usr/share/$(PROGRAM)
 DOT_TEMPLATE_FILE=$(INSTALL_DIR)/template.dot
 BIN=/usr/bin/$(PROGRAM)
 DOCDIR=/usr/share/man/man1
+BASH_COMPLETION_DIR=/usr/share/bash-completion/completions
 # --------------------------------------------------
 
 config: clean
@@ -20,7 +21,8 @@ clean:
 
 install: ./bin/$(PROGRAM) ./template/template.dot ./doc/$(PROGRAM).1
 	@#you don't want to overwrite an existing installation.. Use reinstall
-	@if test -d "$(INSTALL_DIR)"; then echo "$(INSTALL_DIR) already exists. Use 'make reinstall'"; exit 1; fi
+	@if test -d "$(INSTALL_DIR)"; then echo "$(INSTALL_DIR) already exists. Use 'make reinstall'" >&2; \
+		exit 1; fi
 	@echo "Installing yauml..."
 	mkdir -p $(INSTALL_DIR)
 	cp template/template.dot $(DOT_TEMPLATE_FILE)
@@ -29,6 +31,9 @@ install: ./bin/$(PROGRAM) ./template/template.dot ./doc/$(PROGRAM).1
 	@echo "Installing documentation..."
 	cp doc/$(PROGRAM).1 $(DOCDIR)
 	gzip $(DOCDIR)/$(PROGRAM).1
+	@echo "Configuring bash completion..."
+	@cp ./bin/yauml_completion $(BASH_COMPLETION_DIR)/$(PROGRAM) \
+		|| echo "Cannot configure BASH_COMPLETION. See BASH_COMPLETION_DIR variable..." >&2
 
 uninstall:
 	@echo "Uninstalling yauml..."

@@ -8,7 +8,7 @@ Example
 -------
 
 The script lets you use the the YAML language in order to build a UML conception
-diagram. Let the following file *./example/ex1/1.yaml*::
+diagram. Let the following file ``./example/ex1/1.yaml``::
 
     - class: A
       attributes:
@@ -32,14 +32,14 @@ Writting this::
 
     yauml ./example/ex1/1.yaml
 
-would output the resulting *dot* file on **stdout** according to the specified
+would output the resulting ``dot`` file on **stdout** according to the specified
 template. In order to get an image, **dot** has to treat the data going out
-from *yauml* like so::
+from ``yauml`` like so::
 
     yauml ./example/ex1/1.yaml | dot -Tpng -o ./example/ex1/1.png
 
 Using the default template given with this program, the result
-after passing the output to *dot* would be:
+after passing the output to ``dot`` would be:
 
 .. image:: ./example/ex1/1.png
 
@@ -67,21 +67,21 @@ Let's add some particularities to this conception::
       methods:
         - int get_c()
     
-and the output through *yauml* and *dot* would now be:
+and the output through ``yauml`` and ``dot`` would now be:
 
 .. image:: ./example/ex1/2.png
 
 So far YAUML handles:
 
-- Classes (can be abstract);
-    - attributes;
-    - methods;
-- Interfaces;
-- Relations;
-    - Inheritance;
-    - Use;
-    - Is part of;
-    - Implement;
+- Classes (can be abstract)
+    - attributes
+    - methods
+- Interfaces
+- Relations
+    - Inheritance
+    - Use
+    - Is part of
+    - Implement
 
 A more complete example would look like:
 
@@ -91,7 +91,7 @@ Documentation
 -------------
 
 This comes with a manual explaining all you need to know to use the script. For
-more information about the *dot* language and the the way to set up template,
+more information about the ``dot`` language and the the way to set up template,
 see **Graphviz** documentation.
 
 Installation
@@ -105,6 +105,14 @@ Then, simply run::
 and::
 
     make install
+
+Bash completion
+===============
+
+In order for the bash completion to be installed when you install the program,
+you have to configure the ``BASH_COMPLETION_DIR`` variable in the Makefile.
+Because it depends on the OS you're using.
+
 
 Dependencies
 ------------
