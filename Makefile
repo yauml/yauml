@@ -37,6 +37,6 @@ install: ./bin/$(PROGRAM) ./template/template.dot ./doc/$(PROGRAM).1
 
 uninstall:
 	@echo "Uninstalling yauml..."
-	rm -rf $(BIN) $(INSTALL_DIR) $(DOCDIR)/$(PROGRAM).1.gz
+	rm -rf $(BIN) $(INSTALL_DIR) $(DOCDIR)/$(PROGRAM).1.gz $(BASH_COMPLETION_DIR)/$(PROGRAM)
 
 reinstall: uninstall install
