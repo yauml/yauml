@@ -1,6 +1,0 @@
-#!/bin/bash
-for file in *.yaml;
-do
-	name="${file%.*}"
-	yauml ${name}.yaml | dot -Tpng -o ${name}.png
-done
