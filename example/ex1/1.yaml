@@ -1,0 +1,17 @@
+- class: A
+  attributes:
+    - int a
+  methods:
+    - int get_a()
+
+- class: B
+  attributes:
+    - int b
+  methods:
+    - int get_b()
+
+- class: C
+  attributes:
+    - int c
+  methods:
+    - int get_c()

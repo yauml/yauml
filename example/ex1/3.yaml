@@ -1,0 +1,45 @@
+- class: A { Abstract }
+  ispartof:
+    - E
+  implements:
+    - II
+  attributes:
+    - int a
+  methods:
+    - int get_a()
+
+- class: B
+  inherits:
+    - A
+  attributes:
+    - int b
+  methods:
+    - int get_b()
+
+- class: C
+  uses:
+    - D
+  inherits:
+    - A
+  attributes:
+    - int c
+  methods:
+    - int get_c()
+
+- interface: II
+  methods:
+    - int e()
+    - int f()
+    - int g()
+
+- class: D
+  attributes:
+    - int d
+  methods:
+    - int get_d()
+
+- class: E
+  attributes:
+    - int e
+  methods:
+    - int get_e()

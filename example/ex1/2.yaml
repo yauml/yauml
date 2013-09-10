@@ -1,0 +1,21 @@
+- class: A
+  attributes:
+    - int a
+  methods:
+    - int get_a()
+
+- class: B
+  inherits:
+    - A
+  attributes:
+    - int b
+  methods:
+    - int get_b()
+
+- class: C
+  inherits:
+    - A
+  attributes:
+    - int c
+  methods:
+    - int get_c()
