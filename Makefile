@@ -18,7 +18,7 @@ config: clean
 clean:
 	@rm -f bin/$(PROGRAM)
 
-install: bin/$(PROGRAM) template/template.dot doc/$(PROGRAM).1
+install: ./bin/$(PROGRAM) ./template/template.dot ./doc/$(PROGRAM).1
 	@#you don't want to overwrite an existing installation.. Use reinstall
 	@if test -d "$(INSTALL_DIR)"; then echo "$(INSTALL_DIR) already exists. Use 'make reinstall'"; exit 1; fi
 	@echo "Installing yauml..."
