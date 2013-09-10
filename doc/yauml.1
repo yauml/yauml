@@ -1,4 +1,4 @@
-.TH YAUML ! 2013-09-05
+.TH YAUML 1 2013-09-05
 
 .SH NAME
 .B yauml
@@ -31,31 +31,73 @@ Shows a help text on \fBstdout\fP.
 \fB-v, --version\fP
 Version of the program.
 
+\" YAML format
+.SH YAML format
+The program will scan the YAML file for \fIclass\fP and \fIinterface\fP blocks written like so:
+
+.EE 
+    - class: ClassName
+      # rest of block
+
+    - interface: InterfaceName
+      # rest of block
+
+.SS Class block
+A class block can contain \fIattributes\fP, \fImethods\fP, \fIimplements\fP, \fIispartof\fP and \fIinherits\fP sub-block.
+For e.g:
+
+.EE
+    - class: A
+      attributes:
+      - att1
+      - att2
+      - ...
+      methods:
+      - method1()
+      - method2()
+      - ...
+.P
+Considering ths class \fBA\fP, the following could be added:
+
+.EE
+    - class: B
+      inherits:
+      - A
+      ...
+.P
+This would mean that \fBB\fP inherits from \fBA\fP. Finally \fIimplements\fP and \fIispartof\fP blocks would be used exactly the same
+way as \fIinherits\fP.
+
+.SS Interface block
+Same as a class block but only \fImethods\fP sub-block are treated.
+
 .\" FILES
 .SH FILES
 .TP
 \fBTEMPLATE_FILE\fP
 /usr/share/yauml/template.dot
 
+.P
 This file is written accordingly to the \fBdot\fP programming language. However, in order to properly use \fByauml\fP,
 it is required to place some flags in the file so that the program finds where to inject the right string at the right
 place. Those flags are the following:
 
-.IP
-// CLASSES
+.EE
+    // CLASSES
+    
+    // INTERFACES
+    
+    // USE RELATIONS
+    
+    // INHERIT RELATIONS
+    
+    // ISPARTOF RELATIONS
+    
+    // IMPLEMENT RELATIONS
+    
+    \" INSERT ALL FLAGS HERE
 
-// INTERFACES
-
-// USE RELATIONS
-
-// INHERIT RELATIONS
-
-// ISPARTOF RELATIONS
-
-// IMPLEMENT RELATIONS
-
-.\" INSERT ALL FLAGS HERE
-
+.P
 All of these flags consist in a commented line containing the word "CLASSES" or "INTERFACES" or ...  
 in capital letters (note that "// The CLASSES here" would be valid too). The first occurence of
 each flags will be followed by the respective string built from the YAML file.
