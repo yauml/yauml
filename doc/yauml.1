@@ -69,8 +69,19 @@ Considering ths class \fBA\fP, the following could be added:
       - A
       ...
 .P
-This would mean that \fBB\fP inherits from \fBA\fP. Finally \fIimplements\fP and \fIispartof\fP blocks would be used exactly the same
-way as \fIinherits\fP.
+This would mean that \fBB\fP inherits from \fBA\fP. \fIimplements\fP and \fIispartof\fP 
+blocks would be used exactly the same way as \fIinherits\fP. In order to specify the
+multiplicity of the entities involved in the relation:
+
+.EE
+    - class: B
+    inherits:
+    - A
+    ispartof:
+    - C [1..*] [1]
+.P
+where the first and second string between brackets respectively mean the multiplicity of
+the child and the parent.
 
 Abstract classes are written like so:
 

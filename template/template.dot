@@ -46,7 +46,7 @@ digraph {
     labelfontsize = "8",
     labeldistance = "1.5em",
     labelangle = "-60",
-    labelfontcolor = "blue"
+    labelfontcolor = "black"
   ]
 
   // ISPARTOF RELATIONS
@@ -59,7 +59,7 @@ digraph {
     labelfontsize = "8",
     labeldistance = "1.5em",
     labelangle = "-60",
-    labelfontcolor = "blue",
+    labelfontcolor = "black",
     label = "uses"
   ]
   

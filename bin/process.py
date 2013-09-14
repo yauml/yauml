@@ -44,7 +44,7 @@ class DotStringBuilder(object):
     r"""
     """
     # Retrieves relations
-    RELATION_FORMAT = "  node%s -> node%s;\n"
+    RELATION_FORMAT = "edge [\n\ttaillabel = \"%s\"\n\theadlabel = \"%s\"\n  ]\n  node%s -> node%s;\n"
     CLASS_FORMAT = '  node%s [\n\tlabel = "{%s\n\t|%s|%s}"\n  \n  ]\n\n'
     INTERFACE_FORMAT = '  node%s [\n\tlabel = "{\<\<interface\>\>\\n%s\n\t|\\l|%s}"\n  ]\n\n'
 
@@ -107,8 +107,17 @@ class DotStringBuilder(object):
         relations = ''
         for entity in self._data:
             if relation in entity:
-                for parent in entity[relation]:
-                    relations += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
+                for parent_string in entity[relation]:
+                    parent = parent_multiplicity = child_multiplicity =  ''
+                    for i,word in enumerate(parent_string.split()):
+                        if i == 0:
+                            parent = word
+                        elif i == 1:
+                            child_multiplicity = word.strip("[]")
+                        elif i == 2:
+                            parent_multiplicity = word.strip("[]")
+                    relations += self.RELATION_FORMAT % (parent_multiplicity,child_multiplicity,\
+                                                                    parent, entity['class'].split()[0])
         return relations
 
 
