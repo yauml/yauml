@@ -19,7 +19,7 @@ AUTHORS:
 #                  http://www.gnu.org/licenses/                                     *
 #************************************************************************************
 
-import yaml, sys, getopt, re, pipes
+import yaml, sys, getopt, re, subprocess
 
 template_filename = '../template/template.dot'
 out_file = None
@@ -232,10 +232,8 @@ def main():
 
         #using dot directly
         if out_type:
-            t = pipes.Template()
-            t.append('dot -T%s -o %s' % (out_type, out_file), '--')
-            with t.open('pipefile','w') as f:
-                f.write(out_data)
+            proc = subprocess.Popen('dot -T%s -o %s' % (out_type,out_file), stdin=subprocess.PIPE, shell=True)
+            proc.stdin.write(bytes(out_data, 'UTF-8'))
             sys.exit(0)
 
     print(out_data, file=f)
