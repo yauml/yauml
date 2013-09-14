@@ -5,14 +5,14 @@
 - A script for generating UML diagrams from YAML file.
 
 .SH SYNOPSYS
-.B yauml [-t \fItemplate_file\fP] [-o \fIout_file\fP] \fIfile.yaml\fP
+.B yauml [-t \fItemplate_file\fP] [-o \fIout_file\fP [-T\fItype\fP]] \fIfile.yaml\fP
 
 .B yauml [-hv]
 
 .\" DESCRIPTION
 .SH DESCRIPTION
 This program generates a formatted string from an YAML file according to the dot programming language interpreted 
-by \fBGraphviz\fP. The output can then be used by \fBdot\fP in order to get a file in png, pdf, or 
+by \fBGraphviz\fP. The output can then be used by \fBdot\fP in order to get a file in png, pdf or 
 another file format supported (see \fBdot\fP(1)).
 
 .\" OPTIONS
@@ -24,6 +24,10 @@ The template file to use (default: \fBTEMPLATE_FILE\fP).
 .TP
 \fB-o, --out\fP \fIout_file\fP
 The file to output the generated result (default: \fBstdout\fP).
+.TP
+\fB-T, --Type\fP \fIformat\fP
+The type of file to generate (see \fBdot\fP(1)). Specifying this will automatically pass the output 
+of \fByauml\fP to \fBdot\fP. \fBThis option has to be used with -o\fP.
 .TP
 \fB-h, --help\fP
 Shows a help text on \fBstdout\fP.

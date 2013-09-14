@@ -28,7 +28,7 @@ diagram. Let the following file ``./example/ex1/1.yaml``::
       methods:
         - int get_c()
 
-Writting this::
+Writing this in a terminal::
 
     yauml ./example/ex1/1.yaml
 
@@ -37,6 +37,11 @@ template. In order to get an image, **dot** has to treat the data going out
 from ``yauml`` like so::
 
     yauml ./example/ex1/1.yaml | dot -Tpng -o ./example/ex1/1.png
+
+An equivalent way of writing this is to use some options available in ``yauml``
+which allows to directly pass ``yauml``'s output to ``dot``::
+
+    yauml -Tpng -o ./example/ex1/1.png ./example/ex1/1.yauml
 
 Using the default template given with this program, the result
 after passing the output to ``dot`` would be:
@@ -71,7 +76,7 @@ and the output through ``yauml`` and ``dot`` would now be:
 
 .. image:: ./example/ex1/2.png
 
-So far YAUML handles:
+So far, YAUML handles:
 
 - Classes (can be abstract)
     - attributes
@@ -90,14 +95,14 @@ A more complete example would look like:
 Documentation
 -------------
 
-This comes with a manual explaining all you need to know to use the script. For
-more information about the ``dot`` language and the the way to set up template,
+This comes with a manual explaining all you need to know to use this script. For
+more information about the ``dot`` language and the the way to set up a template,
 see **Graphviz** documentation.
 
 Installation
 ------------
 
-First, you can configurate some variables to suit your needs in the Makefile.
+First, you can configure some variables to suit your needs in the ``Makefile``.
 Then, simply run::
 
     make
@@ -109,9 +114,9 @@ and::
 Bash completion
 ===============
 
-In order for the bash completion to be installed when you install the program,
-you have to configure the ``BASH_COMPLETION_DIR`` variable in the Makefile.
-Because it depends on the OS you're using.
+In order for TAB completion to be configured when you install the program,
+you have to configure the ``BASH_COMPLETION_DIR`` variable in the ``Makefile``
+because it depends on the OS you're using.
 
 
 Dependencies

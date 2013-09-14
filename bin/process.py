@@ -19,10 +19,11 @@ AUTHORS:
 #                  http://www.gnu.org/licenses/                                     *
 #************************************************************************************
 
-import yaml, sys, getopt, re
+import yaml, sys, getopt, re, pipes
 
 template_filename = '../template/template.dot'
 out_file = None
+out_type = None
 
 # CONSTANTS
 VERSION='0.1'
@@ -95,53 +96,21 @@ class DotStringBuilder(object):
 
         return interface_string
 
-    def build_uses(self):
+    def build_relation(self, relation):
         r"""
-        Builds the "uses" nodes string.
-        """
-        # Uses
-        uses = ''
-        for entity in self._data:
-            if 'uses' in entity:
-                for parent in entity['uses']:
-                    uses += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
-        return uses
+        Builds the appropriate relation string.
 
-    def build_inherits(self):
-        r"""
-        Builds the "inherits" nodes string.
-        """
-        # Inheritance
-        inheritances = ''
-        for entity in self._data:
-            if 'inherits' in entity:
-                for parent in entity['inherits']:
-                    inheritances += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
-        return inheritances
+        INPUT:
 
-    def build_is_part_of(self):
-        r"""
-        Builds the "is part of"  nodes string.
+            - ``relation`` -- The relation to look for in the data buffer.
         """
-        # Is-part-of
-        ispartofs = ''
+        relations = ''
         for entity in self._data:
-            if 'ispartof' in entity:
-                for parent in entity['ispartof']:
-                    ispartofs += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
-        return ispartofs
+            if relation in entity:
+                for parent in entity[relation]:
+                    relations += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
+        return relations
 
-    def build_implements(self):
-        r"""
-        Builds the "implements" nodes string.
-        """
-        # Implements
-        implements = ''
-        for entity in self._data:
-            if 'implements' in entity:
-                for parent in entity['implements']:
-                    implements += self.RELATION_FORMAT % (parent, entity['class'].split()[0])
-        return implements
 
 def build_out(template, builder):
     r"""
@@ -168,16 +137,16 @@ def build_out(template, builder):
             out += builder.build_interfaces()
             done['INTERFACES'] = True
         elif re.search(COMMENTED_RE % 'USE RELATIONS',line) and not done['USE RELATIONS']:
-            out += builder.build_uses()
+            out += builder.build_relation('uses')
             done['USE RELATIONS'] = True
         elif re.search(COMMENTED_RE % 'INHERIT RELATIONS', line) and not done['INHERIT RELATIONS']:
-            out += builder.build_inherits()
+            out += builder.build_relation('inherits')
             done['INHERIT RELATIONS'] = True
         elif re.search(COMMENTED_RE % 'ISPARTOF RELATIONS', line) and not done['ISPARTOF RELATIONS']:
-            out += builder.build_is_part_of()
+            out += builder.build_relation('ispartof')
             done['ISPARTOF RELATIONS'] = True
         elif re.search(COMMENTED_RE % 'IMPLEMENT RELATIONS', line) and not done['IMPLEMENT RELATIONS']:
-            out += builder.build_implements()
+            out += builder.build_relation('implements')
             done['IMPLEMENT RELATIONS'] = True
     return out
 
@@ -195,10 +164,10 @@ def getOptions():
     r"""
     Gets all options at command line.
     """
-    global yaml_filename, template, template_filename, out_file
+    global yaml_filename, template, template_filename, out_file, out_type
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hvt:o:", ["help","version","template=","out="])
+        opts, args = getopt.getopt(sys.argv[1:], "hvt:o:T:", ["help","version","template=","out=","Type="])
     except getopt.GetoptError as err:
         print(str(err))
         print(HELP)
@@ -208,6 +177,8 @@ def getOptions():
         if o in ("-v","--version"):
             print(VERSION_INFO)
             sys.exit(0)
+        elif o in ("-T", "--type"):
+            out_type = a
         elif o in ("-o","--out"):
             out_file = a
         elif o in ("-h","--help"):
@@ -221,6 +192,10 @@ def getOptions():
     if len(args) < 1:
         print(PROGRAM+': an argument is missing.')
         sys.exit(1)
+
+    if out_type and not out_file:
+        print(PROGRAM+': -T option has to be used with -o')
+        sys.exit(1)
     
     with open(template_filename, 'r') as template_file: 
         template = template_file.read()
@@ -232,7 +207,8 @@ def main():
     # Retrieve yaml data
     with open(yaml_filename) as yaml_file: 
         data = yaml.load(yaml_file.read())
-
+    
+    out_data = build_out(template, DotStringBuilder(data))
     f = sys.stdout
     #print output to stdout / file
     if out_file:
@@ -240,7 +216,16 @@ def main():
             f = open(out_file, 'w')
         except FileNotFoundError as e:
             print('%s: %s' % (PROGRAM, e), file=sys.stderr)
-    print(build_out(template, DotStringBuilder(data)), file=f)
+
+        #using dot directly
+        if out_type:
+            t = pipes.Template()
+            t.append('dot -T%s -o %s' % (out_type, out_file), '--')
+            with t.open('pipefile','w') as f:
+                f.write(out_data)
+            sys.exit(0)
+
+    print(out_data, file=f)
 
 if __name__ == "__main__":
     main()
