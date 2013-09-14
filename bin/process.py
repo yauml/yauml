@@ -132,9 +132,10 @@ def build_out(template, builder):
     """
     out = ''
     done = {}
-    done['CLASSES'], done['INTERFACES'], \
-    done['USE RELATIONS'], done['INHERIT RELATIONS'], \
-    done['ISPARTOF RELATIONS'], done['IMPLEMENT RELATIONS'] = False,False,False,False,False,False
+    done['CLASSES'] = done['INTERFACES'] = \
+    done['USE RELATIONS'] = done['INHERIT RELATIONS'] = \
+    done['ISPARTOF RELATIONS'] = done['IMPLEMENT RELATIONS'] = \
+    done['SIMPLE RELATIONS'] = False
     COMMENTED_RE = '//.*%s'
 
     for line in template.split(sep='\n'):
@@ -157,6 +158,9 @@ def build_out(template, builder):
         elif re.search(COMMENTED_RE % 'IMPLEMENT RELATIONS', line) and not done['IMPLEMENT RELATIONS']:
             out += builder.build_relation('implements')
             done['IMPLEMENT RELATIONS'] = True
+        elif re.search(COMMENTED_RE % 'SIMPLE RELATIONS', line) and not done['SIMPLE RELATIONS']:
+            out += builder.build_relation('associatedto')
+            done['SIMPLE RELATIONS'] = True
     return out
 
 def make_raw(s):

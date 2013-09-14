@@ -33,6 +33,14 @@ digraph {
 
 
   edge [
+    arrowhead = "none"
+    arrowtail = "none"
+  ]
+
+  // SIMPLE RELATIONS
+
+
+  edge [
     dir = "back",
     arrowtail = "empty"
   ]
