@@ -33,6 +33,10 @@ HELP='yauml [OPTIONS] file\n\
 OPTIONS:\n\
 \t-o|--out out_file\n\
 \t\tSpecifies the file to send output to (default: stdout)\n\
+\t-T|--Type format\n\
+\t\tThe type of file to generate (see dot(1)). Specifying this\n\
+\t\twill automatically pass the output of yauml to dot. This option\n \
+\t\thas to be used with -o.\n\
 \t-t|--template template\n\
 \t\tSepcifies the template file (default: %s).\n\
 \t-h|--help\n\
@@ -135,7 +139,7 @@ def build_out(template, builder):
     done['CLASSES'] = done['INTERFACES'] = \
     done['USE RELATIONS'] = done['INHERIT RELATIONS'] = \
     done['ISPARTOF RELATIONS'] = done['IMPLEMENT RELATIONS'] = \
-    done['SIMPLE RELATIONS'] = False
+    done['SIMPLE RELATIONS'] = done['COMPOSITE RELATIONS'] = False
     COMMENTED_RE = '//.*%s'
 
     for line in template.split(sep='\n'):
@@ -155,6 +159,9 @@ def build_out(template, builder):
         elif re.search(COMMENTED_RE % 'ISPARTOF RELATIONS', line) and not done['ISPARTOF RELATIONS']:
             out += builder.build_relation('ispartof')
             done['ISPARTOF RELATIONS'] = True
+        elif re.search(COMMENTED_RE % 'COMPOSITE RELATIONS', line) and not done['COMPOSITE RELATIONS']:
+            out += builder.build_relation('iscompositeof')
+            done['COMPOSITE RELATIONS'] = True
         elif re.search(COMMENTED_RE % 'IMPLEMENT RELATIONS', line) and not done['IMPLEMENT RELATIONS']:
             out += builder.build_relation('implements')
             done['IMPLEMENT RELATIONS'] = True

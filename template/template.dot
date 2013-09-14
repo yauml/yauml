@@ -59,6 +59,16 @@ digraph {
 
   // ISPARTOF RELATIONS
   
+  edge [
+    dir = "back",
+    arrowtail = "diamond",
+    labelfontsize = "8",
+    labeldistance = "1.5em",
+    labelangle = "-60",
+    labelfontcolor = "black"
+  ]
+
+  // COMPOSITE RELATIONS
 
   edge [
     dir = "back",
