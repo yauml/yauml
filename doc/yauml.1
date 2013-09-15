@@ -13,7 +13,8 @@
 .SH DESCRIPTION
 This program generates a formatted string from an YAML file according to the dot programming language interpreted 
 by \fBGraphviz\fP. The output can then be used by \fBdot\fP in order to get a file in png, pdf or 
-another file format supported (see \fBdot\fP(1)).
+another file format supported (see \fBdot\fP(1)). However, \fByauml\fP handles \fB-T\fP and \fB-o\fP options just
+like \fBdot\fP. If those options are given, the program will automatically call \fBdot\fP as a sub-process.
 
 .\" OPTIONS
 .SH OPTIONS
@@ -71,7 +72,7 @@ Considering ths class \fBA\fP, the following could be added:
 .P
 This would mean that \fBB\fP inherits from \fBA\fP. \fIimplements\fP and \fIispartof\fP 
 blocks would be used exactly the same way as \fIinherits\fP. In order to specify the
-multiplicity of the entities involved in the relation:
+\fBmultiplicity\fP of the entities involved in the relation:
 
 .EE
     - class: B
@@ -83,7 +84,7 @@ multiplicity of the entities involved in the relation:
 where the first and second string between brackets respectively mean the multiplicity of
 the child and the parent.
 
-Abstract classes are written like so:
+\fBAbstract\fP classes are written like so:
 
 .EE
     - class: C { Abstract }
@@ -93,7 +94,7 @@ Abstract classes are written like so:
       - ...
 
 .SS Interface block
-Same as a class block but only \fImethods\fP sub-block are treated.
+Same as a class block but only \fImethods\fP sub-blocks are treated.
 
 .\" FILES
 .SH FILES
@@ -103,13 +104,15 @@ Same as a class block but only \fImethods\fP sub-block are treated.
 
 .P
 This file is written accordingly to the \fBdot\fP programming language. However, in order to properly use \fByauml\fP,
-it is required to place some flags in the file so that the program finds where to inject the right string at the right
+it is required to place some \fBflags\fP in the file so that the program finds where to inject the right string at the right
 place. Those flags are the following:
 
 .EE
     // CLASSES
     
     // INTERFACES
+    
+    // SIMPLE RELATIONS
     
     // USE RELATIONS
     
