@@ -8,9 +8,6 @@ _yauml()
 	if [[ ${cur} == -* ]]; then
 		COMPREPLY=( $(compgen -W "${opts[*]}" -- ${cur}) )
 		return 0
-	else
-		COMPREPLY=( $(compgen -fd -- ${cur}) )
-	    	return 0
 	fi
 }
-complete -F _yauml yauml
+complete -F _yauml -o default yauml
