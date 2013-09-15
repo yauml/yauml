@@ -239,8 +239,8 @@ def main():
 
         #using dot directly
         if out_type:
-            proc = subprocess.Popen('dot -T%s -o %s' % (out_type,out_file), stdin=subprocess.PIPE, shell=True)
-            proc.stdin.write(bytes(out_data, 'UTF-8'))
+            proc = subprocess.Popen(['dot','-T%s' % out_type,'-o%s' % out_file], stdin=subprocess.PIPE)
+            proc.communicate(input=bytes(out_data, 'UTF-8'))
             sys.exit(0)
 
     print(out_data, file=f)
