@@ -131,3 +131,8 @@ To run the script, the following softwares are needed :
 - `PyYAML <https://bitbucket.org/xi/pyyaml>`__
 - `Graphviz <http://www.graphviz.org/>`__ (optionnal, but the whole point is to use it)
 
+Versions
+--------
+
+Versions from v0.1 until v1.0 are not claimed to be backward compatible. Until
+v1.0, the program may or may not be heavily changed.
