@@ -21,7 +21,7 @@ AUTHORS:
 
 import yaml, sys, getopt, re, subprocess
 
-template_filename = '../template/template.dot'
+template_filename = '../templates/default.dot'
 out_file = None
 out_type = None
 
@@ -48,9 +48,9 @@ class DotStringBuilder(object):
     r"""
     """
     # Retrieves relations
-    RELATION_FORMAT = "edge [\n\ttaillabel = \"%s\"\n\theadlabel = \"%s\"\n  ]\n  node%s -> node%s;\n"
-    CLASS_FORMAT = '  node%s [\n\tlabel = "{%s\n\t|%s|%s}"\n  \n  ]\n\n'
-    INTERFACE_FORMAT = '  node%s [\n\tlabel = "{\<\<interface\>\>\\n%s\n\t|\\l|%s}"\n  ]\n\n'
+    RELATION_FORMAT = '  edge [\n\ttaillabel = "%s"\n\theadlabel = "%s"\n  ]\n  node%s -> node%s;\n'
+    CLASS_FORMAT = '  node%s [ label = "{%s | %s | %s}" ];\n\n'
+    INTERFACE_FORMAT = '  node%s [ label = "{\<\<interface\>\>\\n%s | \\l | %s}" ];\n\n'
 
     def __init__(self, data):
         self._data = data

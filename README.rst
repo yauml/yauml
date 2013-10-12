@@ -41,7 +41,7 @@ from ``yauml`` like so::
 An equivalent way of writing this is to use some options available in ``yauml``
 which allows to directly pass ``yauml``'s output to ``dot``::
 
-    yauml -Tpng -o ./example/ex1/1.png ./example/ex1/1.yauml
+    yauml -Tpng -o ./example/ex1/1.png ./example/ex1/1.yaml
 
 Using the default template given with this program, the result
 after passing the output to ``dot`` would be:
@@ -83,10 +83,13 @@ So far, YAUML handles:
     - methods
 - Interfaces
 - Relations
+    - Simple association
     - Inheritance
     - Use
-    - Is part of
+    - Aggregation
+    - Composition
     - Implement
+- Relation multiplicity
 
 A more complete example would look like:
 

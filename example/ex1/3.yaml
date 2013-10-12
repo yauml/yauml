@@ -33,6 +33,8 @@
     - int g()
 
 - class: D
+  iscompositeof:
+    - F [1..*] [1]
   attributes:
     - int d
   methods:
@@ -43,3 +45,7 @@
     - int e
   methods:
     - int get_e()
+
+- class: F
+  attributes:
+    - int f
