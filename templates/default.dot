@@ -68,7 +68,7 @@ digraph {
     labelfontcolor = "black"
   ]
 
-  // COMPOSITE RELATIONS
+  // ISCONTAINEDBY RELATIONS
 
   edge [
     dir = "back",

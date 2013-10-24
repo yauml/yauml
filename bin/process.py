@@ -139,7 +139,7 @@ def build_out(template, builder):
     done['CLASSES'] = done['INTERFACES'] = \
     done['USE RELATIONS'] = done['INHERIT RELATIONS'] = \
     done['ISPARTOF RELATIONS'] = done['IMPLEMENT RELATIONS'] = \
-    done['SIMPLE RELATIONS'] = done['COMPOSITE RELATIONS'] = False
+    done['SIMPLE RELATIONS'] = done['ISCONTAINEDBY RELATIONS'] = False
     COMMENTED_RE = '//.*%s'
 
     for line in template.split(sep='\n'):
@@ -159,8 +159,8 @@ def build_out(template, builder):
         elif re.search(COMMENTED_RE % 'ISPARTOF RELATIONS', line) and not done['ISPARTOF RELATIONS']:
             out += builder.build_relation('ispartof')
             done['ISPARTOF RELATIONS'] = True
-        elif re.search(COMMENTED_RE % 'COMPOSITE RELATIONS', line) and not done['COMPOSITE RELATIONS']:
-            out += builder.build_relation('iscompositeof')
+        elif re.search(COMMENTED_RE % 'ISCONTAINEDBY RELATIONS', line) and not done['ISCONTAINEDBY RELATIONS']:
+            out += builder.build_relation('iscontainedby')
             done['COMPOSITE RELATIONS'] = True
         elif re.search(COMMENTED_RE % 'IMPLEMENT RELATIONS', line) and not done['IMPLEMENT RELATIONS']:
             out += builder.build_relation('implements')
