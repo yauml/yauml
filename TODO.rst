@@ -13,9 +13,9 @@
       inherits:
         - A
 
-    using a syntax like this one: ``yauml -l java --source-files -d . example.yaml``
+    using a syntax like this one: ``yauml -l java --source-skel -d . example.yaml``
     would generate the files A.java, B.java with the appropriate code skeletons
     inside.
 
-- add support for model diagrams (not only conception diagram, which is what is
-  currently supported)
+- add support for domain class diagrams (not only conception class diagram,
+  which is what is currently supported).
