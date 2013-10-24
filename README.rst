@@ -127,8 +127,9 @@ Dependencies
 
 To run the script, the following softwares are needed :
 
-- Python
-- `PyYAML <https://bitbucket.org/xi/pyyaml>`__
+- Python 3
+- `PyYAML <https://bitbucket.org/xi/pyyaml>`__ (PyYAML for Python2 and Python3
+  seem to be in conflict)
 - `Graphviz <http://www.graphviz.org/>`__ (optionnal, but the whole point is to use it)
 
 Versions
