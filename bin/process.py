@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 # coding=utf-8
+
+from __future__ import print_function
+import sys
+
+# Check for version
+if sys.version_info[0] <= 2:
+    print('Only works with Python 3. Please either change the first line of /usr/bin/yauml or make `python` points toward Python 3.')
+    sys.exit(1)
+
 r"""
 Creating UML diagrams from YAML files.
 
@@ -19,7 +28,7 @@ AUTHORS:
 #                  http://www.gnu.org/licenses/                                     *
 #************************************************************************************
 
-import yaml, sys, getopt, re, subprocess
+import yaml, getopt, re, subprocess
 
 template_filename = '../templates/default.dot'
 out_file = None
