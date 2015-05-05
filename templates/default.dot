@@ -22,6 +22,8 @@ digraph {
     arrowtail = "empty"
   ]
 
+  // ENUMERATIONS
+
   // INTERFACES
 
   // CLASSES
