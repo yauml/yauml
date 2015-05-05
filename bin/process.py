@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 r"""
 Creating UML diagrams from YAML files.
@@ -63,7 +63,7 @@ class DotStringBuilder(object):
         for entity in self._data:
             if 'class' in entity:
                 class_name = make_raw(entity['class'])
-        
+
                 attributes = ''
                 if 'attributes' in entity:
                     for attribute in entity['attributes']:
@@ -88,7 +88,7 @@ class DotStringBuilder(object):
         for entity in self._data:
             if 'interface' in entity:
                interface_name = entity['interface']
-               
+
                methods = ''
                if 'methods' in entity:
                    for method in entity['methods']:
@@ -127,7 +127,7 @@ class DotStringBuilder(object):
 
 def build_out(template, builder):
     r"""
-    Builds the apporpriate text output from the 
+    Builds the apporpriate text output from the
     YAML file.
 
     OUTPUT:
@@ -179,7 +179,7 @@ def make_raw(s):
         else:
             t+=c
     return t
-   
+
 def getOptions():
     r"""
     Gets all options at command line.
@@ -208,7 +208,7 @@ def getOptions():
             template_filename = a
         else:
             assert False
-            
+
     if len(args) < 1:
         print(PROGRAM+': an argument is missing.')
         sys.exit(1)
@@ -216,8 +216,8 @@ def getOptions():
     if out_type and not out_file:
         print(PROGRAM+': -T option has to be used with -o')
         sys.exit(1)
-    
-    with open(template_filename, 'r') as template_file: 
+
+    with open(template_filename, 'r') as template_file:
         template = template_file.read()
     yaml_filename = args[0]
 
@@ -225,9 +225,9 @@ def main():
     getOptions()
 
     # Retrieve yaml data
-    with open(yaml_filename) as yaml_file: 
+    with open(yaml_filename) as yaml_file:
         data = yaml.load(yaml_file.read())
-    
+
     out_data = build_out(template, DotStringBuilder(data))
     f = sys.stdout
     #print output to stdout / file
