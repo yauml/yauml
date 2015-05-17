@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 r"""
 Creating UML diagrams from YAML files.
@@ -19,7 +19,7 @@ AUTHORS:
 #                  http://www.gnu.org/licenses/                                     *
 #************************************************************************************
 
-import yaml, sys, getopt, re, subprocess
+import sys, yaml, getopt, re, subprocess
 
 template_filename = '../templates/default.dot'
 out_file = None
