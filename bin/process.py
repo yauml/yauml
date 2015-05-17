@@ -51,6 +51,7 @@ class DotStringBuilder(object):
     RELATION_FORMAT = '  edge [\n\ttaillabel = "%s"\n\theadlabel = "%s"\n  ]\n  node%s -> node%s;\n'
     CLASS_FORMAT = '  node%s [ label = "{%s | %s | %s}" ];\n\n'
     INTERFACE_FORMAT = '  node%s [ label = "{\<\<interface\>\>\\n%s | \\l | %s}" ];\n\n'
+    ENUMERATION_FORMAT = '  node%s [ label = "{\<\<enumeration\>\>\\n%s | %s}" ];\n\n'
 
     def __init__(self, data):
         self._data = data
@@ -79,6 +80,26 @@ class DotStringBuilder(object):
                 class_string += self.CLASS_FORMAT % (class_name.split()[0], class_name, attributes, methods)
 
         return class_string
+
+    def build_enumerations(self):
+        """
+        Builds the enumerations nodes string.
+        """
+        enumerations_string = ''
+        for entity in self._data:
+            if 'enumeration' in entity:
+               enumeration_name = entity['enumeration']
+               
+               values = ''
+               if 'values' in entity:
+                   for value in entity['values']:
+                       values += '%s\\l' % make_raw(value)
+               else:
+                   values += '\\l'
+
+               enumerations_string += self.ENUMERATION_FORMAT % (enumeration_name, enumeration_name, values)
+
+        return enumerations_string
 
     def build_interfaces(self):
         """
@@ -120,8 +141,12 @@ class DotStringBuilder(object):
                             child_multiplicity = word.strip("[]")
                         elif i == 2:
                             parent_multiplicity = word.strip("[]")
+                    if 'class' in entity:
+                        target = entity['class']
+                    elif 'enumeration' in entity:
+                        target = entity['enumeration']
                     relations += self.RELATION_FORMAT % (parent_multiplicity,child_multiplicity,\
-                                                                    parent, entity['class'].split()[0])
+                                                                    parent, target.split()[0])
         return relations
 
 
@@ -136,7 +161,7 @@ def build_out(template, builder):
     """
     out = ''
     done = {}
-    done['CLASSES'] = done['INTERFACES'] = \
+    done['CLASSES'] = done['INTERFACES'] = done['ENUMERATIONS'] =\
     done['USE RELATIONS'] = done['INHERIT RELATIONS'] = \
     done['ISPARTOF RELATIONS'] = done['IMPLEMENT RELATIONS'] = \
     done['SIMPLE RELATIONS'] = done['ISCONTAINEDBY RELATIONS'] = False
@@ -150,6 +175,9 @@ def build_out(template, builder):
         elif re.search(COMMENTED_RE % 'INTERFACES',line) and not done['INTERFACES']:
             out += builder.build_interfaces()
             done['INTERFACES'] = True
+        elif re.search(COMMENTED_RE % 'ENUMERATIONS',line) and not done['ENUMERATIONS']:
+            out += builder.build_enumerations()
+            done['ENUMERATIONS'] = True
         elif re.search(COMMENTED_RE % 'USE RELATIONS',line) and not done['USE RELATIONS']:
             out += builder.build_relation('uses')
             done['USE RELATIONS'] = True
