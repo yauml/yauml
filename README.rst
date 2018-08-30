@@ -7,7 +7,7 @@ files.
 Example
 -------
 
-The script lets you use the the YAML language in order to build a UML conception
+The script lets you use the YAML language in order to build a UML conception
 diagram. Let the following file ``./example/ex1/1.yaml``::
 
     - class: A
@@ -99,7 +99,7 @@ Documentation
 -------------
 
 This comes with a manual explaining all you need to know to use this script. For
-more information about the ``dot`` language and the the way to set up a template,
+more information about the ``dot`` language and the way to set up a template,
 see **Graphviz** documentation.
 
 Installation
